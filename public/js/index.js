@@ -71,5 +71,6 @@ function validate(form) {
          off();
          $('input').val("").addClass('add');
          return false;
+         
     }
 } 

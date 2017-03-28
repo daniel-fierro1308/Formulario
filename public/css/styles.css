@@ -4,6 +4,11 @@
 
 .jumbotron {
     margin-top: 5%;
+    background-color: #1E8CBD;
+    color: #fff;
+}
+.jumbotron:hover {
+    background-color: #253AFF;
 }
 
 .form-input, .error{
