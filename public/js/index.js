@@ -1,5 +1,18 @@
-var passExpression = /(?=[#$-/:-?{-~!"^_`\[\]a-zA-Z]*([0-9#$-/:-?{-~!"^_`\[\]]))(?=[#$-/:-?{-~!"^_`\[\]a-zA-Z0-9]*[a-zA-Z])[#$-/:-?{-~!"^_`\[\]a-zA-Z0-9]{4,}/;
-var emailExpression = /([\w\.]+)@([\w\.]+)\.(\w+)/;
+var name, lastname, email, phone, password, repassword, passExpression, emailExpression, message;
+name = document.getElementById('name');
+lastname = document.getElementById('lastname');
+email = document.getElementById('email');
+phone = document.getElementById('phone');
+password = document.getElementById('password');
+repassword = document.getElementById('repassword');
+passExpression = /(?=[#$-/:-?{-~!"^_`\[\]a-zA-Z]*([0-9#$-/:-?{-~!"^_`\[\]]))(?=[#$-/:-?{-~!"^_`\[\]a-zA-Z0-9]*[a-zA-Z])[#$-/:-?{-~!"^_`\[\]a-zA-Z0-9]{4,}/;
+emailExpression = /([\w\.]+)@([\w\.]+)\.(\w+)/;
+
+var alertTemplate = document.getElementById('message').innerHTML;
+var template = Handlebars.compile(alertTemplate);
+
+var result = document.getElementById('postCard').innerHTML;
+var temp = Handlebars.compile(result);
 
 function revise(element){
     if(element.value ==''){
@@ -34,43 +47,50 @@ function reviseEmail(element){
     }
     function off(){
         setTimeout(function(){
-        document.getElementById('message').innerHTML = "";
+        document.getElementById('result').innerHTML = "";
       },2000);
     }
+    //document.getElementById('send').addEventListener('click', validate);
 
-function validate(form) {
-
-    if(form.name.value == '' || form.lastname.value == '' || form.email.value == '' || form.phone.value == '' || form.password.value == '' || form.repassword.value =='') {
-         document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "Please fill all fields" +
-         "</div>";
+function validate() {
+    if(name.value == '' || lastname.value == '' || email.value == '' || phone.value == '' || password.value == '' || repassword.value =='') {
+         document.getElementById('result').innerHTML = template({type:'danger', body:'Please fill all fields'});
          off();
-       return false;
 
-    } else if(!emailExpression.test(form.email.value)){
-            document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "The Email is not Valid" +
-         "</div>";
+    } else if(!emailExpression.test(email.value)){
+            document.getElementById('result').innerHTML = template({type:'danger', body:'The Email is not Valid'});
          off();
-     return false;
+    
 
-    } else if(!passExpression.test(form.password.value)){
-        document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "The Password is not Valid" +
-         "</div>";
-       $(':password').val('').addClass('error');
+    } else if(!passExpression.test(password.value)){
+        document.getElementById('result').innerHTML = template({type:'danger', body:'The Password is not Valid'});
+       $(':password').val('');
         off();
-     return false;
+     
     }
-      else if(form.password.value != form.repassword.value){
-        document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "Passwords do not match, please try again" +
-         "</div>";
-        $(':password').val('').addClass('error');
+      else if(password.value != repassword.value){
+           document.getElementById('result').innerHTML = template({type:'danger', body:'Passwords do not match, please try again'});
+        $(':password').val('');
         off();
-         return false; 
+          
     } else{
-         document.getElementById('message').innerHTML = "<div class ='alert alert-success' role='alert'>"+ "!!Well, the fields are correct!!" +
-         "</div>";
+        document.getElementById('result').innerHTML = template({type:'success', body:'!!Well, the fields are correct!!'});
          off();
          $('input').val("").addClass('add');
-         return false;
-         
+         search();
     }
 } 
+
+function search(){
+    $.ajax({
+  url: 'https://jsonplaceholder.typicode.com/posts',
+  method: 'GET'
+})
+    .then(function(data) {
+        document.getElementById('results').innerHTML = temp({items: data});
+    })
+
+    .catch(function(data){
+        document.getElementById('results').innerHTML = template({type: 'danger', body: err.statusText});
+    });
+}

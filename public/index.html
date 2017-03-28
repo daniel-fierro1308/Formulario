@@ -1,71 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <title>Form Validator</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <meta charset="UTF-8">
+  <title>Form Validator</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+    crossorigin="anonymous">
     <link rel="stylesheet" href="/css/styles.css">
-    <link rel="stylesheet" href="/css/animate.css">    
-</head>
-<body>
-    <div class="container">
-        <div class="jumbotron jumbotron-fluid">
-          <div class="container">
-            <h1 class="display-3" id="validate">Form Validation</h1>
-          </div>
+    <link rel="stylesheet" href="/css/animate.css">
+
+    <template id="message">
+      <div class='alert alert-{{type}}' role='alert'>
+        {{body}}
+      </div>
+    </template>
+
+     <template id="postCard">
+        {{#each items}}
+        <div class="card">
+            <div class="card-block">
+                <h4 class="card-title">{{title}}</h4>
+                <h6 class="card-subtitle mb-2 text-muted">Post #{{id}}</h6>
+                <p class="card-text">{{body}}</p>
+                <a target="_blank" href="http://jsonplaceholder.typicode.com/posts/" +{{id}} class="card-link">View on site</a>
+            </div>
         </div>
+        {{/each}}
+  </template>
 
-        <div id="message"></div>
-        <div class="row">
-          <div class="col-6">
-            <form onsubmit="return validate(this)" method="post">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Name:</label>
-    <input type="text" class="form-control"  id="name" name="name" aria-describedby="emailHelp" placeholder="Enter name" onblur="revise(this);">
-  </div>
-</div>
-<div class="col-6">
-<div class="form-group">
-    <label for="exampleInputEmail1">Lastname:</label>
-    <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="emailHelp" placeholder="Enter lastname" onblur="revise(this);">
-  </div>
-</div>
-</div>
+</head>
 
-<div class="row">
-  <div class="col-6">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email:</label>
-    <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" onblur="revise(this); reviseEmail(this);">
-  </div>
-  </div>
-  <div class="col-6">
-  <div class="form-group">
-    <label for="exampleInputEmail1">Phone:</label>
-    <input type="number" class="form-control" id="phone" name="phone" aria-describedby="emailHelp" placeholder="Enter phone" onblur="revise(this);">
-  </div>
-  </div>
-</div>
+<body>
+  <div class="container">
+    <div class="jumbotron jumbotron-fluid">
+      <div class="container">
+        <h1 class="display-3" id="validate">Form Validation</h1>
+      </div>
+    </div>
 
-<div class="row">
-  <div class="col-6">
-  <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
-    <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" onblur="revise(this); validePassword(this);">
-  </div>
-  </div>
-  <div class="col-6">
-  <div class="form-group">
-    <label for="exampleInputPassword1">Repeat Password</label>
-    <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Enter Password" onblur="revise(this);">
-  </div>
-  </div>
-  </div>
-  <button type="submit" class="btn btn-outline-primary" role="button">Submit</button>
-  </form>
-</div>
+    <div id="result"></div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="/js/index.js"></script>
+    <div class="row">
+      <div class="col-6">
+        <form>
+          <div class="form-group">
+            <label for="exampleInputEmail1">Name:</label>
+            <input type="text" class="form-control" id="name" name="name" aria-describedby="emailHelp" placeholder="Enter name" onblur="revise(this);">
+          </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Lastname:</label>
+          <input type="text" class="form-control" id="lastname" name="lastname" aria-describedby="emailHelp" placeholder="Enter lastname"
+            onblur="revise(this);">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Email:</label>
+          <input type="text" class="form-control" id="email" name="email" aria-describedby="emailHelp" placeholder="Enter email" onblur="revise(this); reviseEmail(this);">
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="exampleInputEmail1">Phone:</label>
+          <input type="number" class="form-control" id="phone" name="phone" aria-describedby="emailHelp" placeholder="Enter phone"
+            onblur="revise(this);">
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-6">
+        <div class="form-group">
+          <label for="exampleInputPassword1">Password</label>
+          <input type="password" class="form-control" id="password" name="password" placeholder="Enter Password" onblur="revise(this); validePassword(this);">
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="form-group">
+          <label for="exampleInputPassword1">Repeat Password</label>
+          <input type="password" class="form-control" id="repassword" name="repassword" placeholder="Enter Password" onblur="revise(this);">
+        </div>
+      </div>
+    </div>
+    <button type="button" class="btn btn-outline-primary" role="button" onclick="validate()">Submit</button>
+    </form>
+  </div>
+  <div id="results">
+
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="/js/handlebars.js"></script>
+  <script src="/js/index.js"></script>
 </body>
+
 </html>
