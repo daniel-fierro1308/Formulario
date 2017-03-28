@@ -7,9 +7,6 @@
     background-color: #1E8CBD;
     color: #fff;
 }
-.jumbotron:hover {
-    background-color: #253AFF;
-}
 
 .form-input, .error{
     display: block;
@@ -46,4 +43,9 @@
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button {
     -webkit-appearance: none;
+}
+
+.card {
+    margin: 2% 10% 3% 5%;
+    border-radius: 10px;
 }

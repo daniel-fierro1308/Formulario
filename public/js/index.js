@@ -50,7 +50,6 @@ function reviseEmail(element){
         document.getElementById('result').innerHTML = "";
       },2000);
     }
-    //document.getElementById('send').addEventListener('click', validate);
 
 function validate() {
     if(name.value == '' || lastname.value == '' || email.value == '' || phone.value == '' || password.value == '' || repassword.value =='') {
@@ -83,14 +82,17 @@ function validate() {
 
 function search(){
     $.ajax({
-  url: 'https://jsonplaceholder.typicode.com/posts',
+  url: 'https://jsonplaceholder.typicode.com/posts/101',
   method: 'GET'
 })
     .then(function(data) {
-        document.getElementById('results').innerHTML = temp({items: data});
+        document.getElementById('posts').innerHTML = temp({items: data});
     })
 
-    .catch(function(data){
-        document.getElementById('results').innerHTML = template({type: 'danger', body: err.statusText});
+    .catch(function(err){
+        document.getElementById('posts').innerHTML = template({type: 'danger', body: '!!Error, The post not are found!!'});
+        setTimeout(function(){
+            document.getElementById('posts').innerHTML = "";
+        },4000);
     });
 }
