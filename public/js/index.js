@@ -32,46 +32,44 @@ function reviseEmail(element){
             } 
      }
     }
+    function off(){
+        setTimeout(function(){
+        document.getElementById('message').innerHTML = "";
+      },2000);
+    }
 
 function validate(form) {
 
     if(form.name.value == '' || form.lastname.value == '' || form.email.value == '' || form.phone.value == '' || form.password.value == '' || form.repassword.value =='') {
          document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "Please fill all fields" +
          "</div>";
-          setTimeout(function(){
-        document.getElementById('message').innerHTML = "";
-      },2000);
+         off();
        return false;
 
     } else if(!emailExpression.test(form.email.value)){
             document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "The Email is not Valid" +
          "</div>";
-         setTimeout(function(){
-        document.getElementById('message').innerHTML = "";
-      },2000);
+         off();
      return false;
 
     } else if(!passExpression.test(form.password.value)){
         document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "The Password is not Valid" +
          "</div>";
-         setTimeout(function(){
-        document.getElementById('message').innerHTML = "";
-      },2000);
-        form.password.value = ''; 
-        form.repassword.value = ''; 
+       $(':password').val('').addClass('error');
+        off();
      return false;
     }
       else if(form.password.value != form.repassword.value){
         document.getElementById('message').innerHTML = "<div class ='alert alert-danger' role='alert'>"+ "Passwords do not match, please try again" +
          "</div>";
-          setTimeout(function(){
-        document.getElementById('message').innerHTML = "";
-      },2000);
-        form.password.value = ''; 
-        form.repassword.value = '';  
+        $(':password').val('').addClass('error');
+        off();
          return false; 
     } else{
-        alert('!!Well');
+         document.getElementById('message').innerHTML = "<div class ='alert alert-success' role='alert'>"+ "!!Well, the fields are correct!!" +
+         "</div>";
+         off();
+         $('input').val("").addClass('add');
+         return false;
     }
-    
 } 
